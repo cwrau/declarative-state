@@ -1,0 +1,11 @@
+{
+  "domain": "declarative_state",
+  "name": "Declarative State",
+  "codeowners": ["@cwr"],
+  "config_flow": true,
+  "documentation": "https://github.com/cwr/declarative-state",
+  "integration_type": "hub",
+  "iot_class": "calculated",
+  "requirements": ["croniter>=2.0.1", "python-dateutil>=2.8.2"],
+  "version": "0.2.0"
+}

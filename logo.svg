@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#1a2a5e"/>
+      <stop offset="100%" stop-color="#0f1c42"/>
+    </linearGradient>
+    <linearGradient id="barCyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#26d0ce"/>
+      <stop offset="100%" stop-color="#1cb5e0"/>
+    </linearGradient>
+    <linearGradient id="barGreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#56e39f"/>
+      <stop offset="100%" stop-color="#11b97a"/>
+    </linearGradient>
+    <linearGradient id="barAmber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffd166"/>
+      <stop offset="100%" stop-color="#f4a261"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softShadow" x="-5%" y="-5%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="500" rx="88" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines -->
+  <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+    <line x1="65" y1="100" x2="65" y2="420"/>
+    <line x1="175" y1="100" x2="175" y2="420"/>
+    <line x1="285" y1="100" x2="285" y2="420"/>
+    <line x1="395" y1="100" x2="395" y2="420"/>
+  </g>
+
+  <!-- Timeline axis -->
+  <line x1="65" y1="408" x2="435" y2="408" stroke="rgba(255,255,255,0.18)" stroke-width="2" stroke-linecap="round"/>
+  <!-- Tick marks -->
+  <line x1="65"  y1="402" x2="65"  y2="416" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="175" y1="403" x2="175" y2="413" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="285" y1="402" x2="285" y2="416" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="395" y1="403" x2="395" y2="413" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Arrow head -->
+  <polygon points="432,401 432,415 447,408" fill="rgba(255,255,255,0.22)"/>
+
+  <!-- ── State bar 1 (cyan): spans full width — always-on or time-bounded ── -->
+  <g filter="url(#softShadow)">
+    <rect x="65" y="130" width="330" height="64" rx="32" fill="url(#barCyan)"/>
+  </g>
+  <!-- bright inner highlight -->
+  <rect x="80" y="133" width="120" height="22" rx="11" fill="rgba(255,255,255,0.15)"/>
+
+  <!-- ── State bar 2 (green): starts later — conditional state ── -->
+  <g filter="url(#softShadow)">
+    <rect x="130" y="218" width="265" height="64" rx="32" fill="url(#barGreen)"/>
+  </g>
+  <rect x="145" y="221" width="90" height="22" rx="11" fill="rgba(255,255,255,0.15)"/>
+
+  <!-- Condition marker at start of bar 2 (circle + ring = "has condition") -->
+  <circle cx="130" cy="250" r="18" fill="rgba(255,255,255,0.08)" filter="url(#glow)"/>
+  <circle cx="130" cy="250" r="10" fill="white" opacity="0.95"/>
+  <circle cx="130" cy="250" r="5" fill="#11b97a"/>
+
+  <!-- ── State bar 3 (amber): shorter window — another conditional state ── -->
+  <g filter="url(#softShadow)">
+    <rect x="175" y="306" width="220" height="64" rx="32" fill="url(#barAmber)"/>
+  </g>
+  <rect x="190" y="309" width="75" height="22" rx="11" fill="rgba(255,255,255,0.15)"/>
+
+  <!-- Condition marker at start of bar 3 -->
+  <circle cx="175" cy="338" r="18" fill="rgba(255,255,255,0.08)" filter="url(#glow)"/>
+  <circle cx="175" cy="338" r="10" fill="white" opacity="0.95"/>
+  <circle cx="175" cy="338" r="5" fill="#f4a261"/>
+
+  <!-- Condition marker at end of bar 3 -->
+  <circle cx="395" cy="338" r="18" fill="rgba(255,255,255,0.08)" filter="url(#glow)"/>
+  <circle cx="395" cy="338" r="10" fill="white" opacity="0.95"/>
+  <circle cx="395" cy="338" r="5" fill="#f4a261"/>
+
+  <!-- End cap marker on bar 1 -->
+  <circle cx="395" cy="162" r="16" fill="rgba(255,255,255,0.08)" filter="url(#glow)"/>
+  <circle cx="395" cy="162" r="9" fill="white" opacity="0.9"/>
+  <circle cx="395" cy="162" r="4" fill="#1cb5e0"/>
+
+  <!-- ── Sync / drift-detection track ── -->
+  <!-- Dashed entity-state track below the time axis. The entity follows the   -->
+  <!-- declared state (cyan), briefly drifts away (orange), then the upward    -->
+  <!-- correction arrow snaps it back — representing drift detection + re-sync. -->
+  <g opacity="0.68">
+    <!-- Left anchor dot (entity start) -->
+    <circle cx="57" cy="440" r="5" fill="#26d0ce"/>
+    <!-- Steady: entity in sync with declared state -->
+    <line x1="65" y1="440" x2="192" y2="440"
+          stroke="#26d0ce" stroke-width="2.5" stroke-dasharray="8,4" stroke-linecap="round"/>
+    <!-- Drift: entity diverges from declared state -->
+    <path d="M 192 440 C 212 440 220 456 240 456 C 260 456 268 440 288 440"
+          stroke="#e07a5f" stroke-width="2.5" fill="none"
+          stroke-dasharray="8,4" stroke-linecap="round"/>
+    <!-- Correction arrow: detected drift → snapped back into sync -->
+    <line x1="240" y1="455" x2="240" y2="444"
+          stroke="rgba(255,255,255,0.92)" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="234,450 240,441 246,450" fill="rgba(255,255,255,0.92)"/>
+    <!-- Steady: entity back in sync -->
+    <line x1="288" y1="440" x2="395" y2="440"
+          stroke="#26d0ce" stroke-width="2.5" stroke-dasharray="8,4" stroke-linecap="round"/>
+    <!-- Right anchor dot (entity end) -->
+    <circle cx="403" cy="440" r="5" fill="#26d0ce"/>
+  </g>
+</svg>

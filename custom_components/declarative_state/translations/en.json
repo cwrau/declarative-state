@@ -1,0 +1,334 @@
+{
+  "title": "Declarative State",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Declarative State Sensor",
+        "description": "Enter a unique name for this sensor. You will configure states and other options in the next steps.",
+        "data": {
+          "name": "Sensor Name"
+        },
+        "data_description": {
+          "name": "Unique name for this sensor (used as entity ID)"
+        }
+      },
+      "init": {
+        "title": "Configure Declarative State",
+        "description": "Choose what you want to configure:",
+        "menu_options": {
+          "settings": "General Settings",
+          "target_settings": "Target Entity",
+          "generic_action": "Generic Action",
+          "per_state_actions": "Per-state Actions",
+          "manage_states": "Manage States",
+          "done": "Done"
+        }
+      },
+      "settings": {
+        "title": "General Settings",
+        "description": "Configure general sensor settings.",
+        "data": {
+          "lookahead": "Lookahead",
+          "error_handling": "Error Handling",
+          "no_sensor": "Target-only mode (no sensor entity)"
+        },
+        "data_description": {
+          "lookahead": "Number of future state transitions to pre-calculate and expose as attributes (0 = off, max 10)",
+          "error_handling": "What to do if a state rule fails to evaluate: ignore the error and fall through, or mark the sensor unavailable",
+          "no_sensor": "When enabled, no sensor entity is created in HA. Useful when you only need time-based control of a target entity and do not want a visible sensor."
+        }
+      },
+      "target_settings": {
+        "title": "Target",
+        "description": "Optionally control entities based on the calculated state. Supports individual entities, areas, devices, and labels. Clear the target to disable.",
+        "data": {
+          "target": "Target",
+          "sync": "Keep in sync",
+          "sync_attribute": "Sync Attribute"
+        },
+        "data_description": {
+          "target": "The entities (or area/device/label) to control whenever the sensor state changes",
+          "sync": "If enabled, the action is re-applied automatically whenever a target entity drifts from its expected state (e.g. if changed externally)",
+          "sync_attribute": "Attribute to watch for drift instead of the entity state. Leave empty to compare the entity state directly."
+        }
+      },
+      "generic_action": {
+        "title": "Generic Action",
+        "description": "The fallback action called for any state that does not have a per-state action configured. The action editor supports templates — use {{ state }} anywhere in the service data to pass the current state value.\n\nNote: Any entity or target selected in the action editor is ignored — the target configured in \"Target Entity\" is always used.",
+        "data": {
+          "action": "Action",
+          "expected_state": "Expected State"
+        },
+        "data_description": {
+          "action": "Action to call (e.g. light.turn_on). Service data fields support Jinja2 templates — e.g. brightness_pct: {{ state | int }}.",
+          "expected_state": "What the target entity should report after the action is applied. Leave empty to use the sensor state value as the expected state."
+        }
+      },
+      "per_state_actions": {
+        "title": "Per-state Actions",
+        "description": "Configure a specific action for each state value. States without an action configured here will fall back to the Default Action.\n\nEach section corresponds to one state value.\n\nNote: Any entity or target selected in the action editor is ignored — the target configured in \"Target Entity\" is always used.",
+        "data": {
+          "action": "Action",
+          "expected_state": "Expected State"
+        },
+        "data_description": {
+          "action": "Action to call when the sensor enters this state. Leave empty to use the Default Action.",
+          "expected_state": "What the target entity should report after this action. Leave empty to use the state value as the expected state."
+        }
+      },
+      "manage_states": {
+        "title": "Manage States",
+        "description": "Currently configured states: {count}\n\nLast state in the list has the highest priority.",
+        "menu_options": {
+          "add_state": "Add State",
+          "edit_state_select": "Edit State",
+          "remove_state_select": "Remove State",
+          "move_state_select": "Reorder State",
+          "back_to_main": "Back to Main Menu"
+        }
+      },
+      "add_state": {
+        "title": "Add New State",
+        "description": "Add a new state rule. It will be added at the end (highest priority).",
+        "data": {
+          "state": "State Value",
+          "start": "Start Time",
+          "end": "End Time",
+          "conditions": "Conditions",
+          "cancel": "Cancel (go back without adding)"
+        },
+        "data_description": {
+          "state": "The value this sensor will report when this rule is active (e.g. 'on', 'off', '200')",
+          "start": "When this state starts. Formats: HH:MM, *-MM-DDThh:mm, or Jinja2 template. Leave empty for 'always'.",
+          "end": "When this state ends. Same formats as start. Leave empty for 'always'.",
+          "conditions": "HA conditions that must all be true for this state to be active. Leave empty for no conditions."
+        }
+      },
+      "edit_state_select": {
+        "title": "Select State to Edit",
+        "description": "Choose which state you want to edit:",
+        "data": {
+          "state_id": "State"
+        }
+      },
+      "edit_state": {
+        "title": "Edit State",
+        "description": "Modify the selected state rule.",
+        "data": {
+          "state": "State Value",
+          "start": "Start Time",
+          "end": "End Time",
+          "conditions": "Conditions",
+          "cancel": "Cancel (go back without saving)"
+        },
+        "data_description": {
+          "state": "The value this sensor will report when this rule is active",
+          "start": "When this state starts. Leave empty for 'always'.",
+          "end": "When this state ends. Leave empty for 'always'.",
+          "conditions": "HA conditions that must all be true for this state to be active. Leave empty for no conditions."
+        }
+      },
+      "remove_state_select": {
+        "title": "Select State to Remove",
+        "description": "Choose which state you want to remove:",
+        "data": {
+          "state_id": "State"
+        }
+      },
+      "confirm_remove": {
+        "title": "Confirm Removal",
+        "description": "Are you sure you want to remove this state?\n\n{state}",
+        "data": {
+          "confirm": "Yes, remove this state"
+        }
+      },
+      "move_state_select": {
+        "title": "Reorder State",
+        "description": "Select a state to move:",
+        "data": {
+          "state_id": "State"
+        }
+      },
+      "move_state": {
+        "title": "Move State",
+        "description": "Moving: {state}",
+        "data": {
+          "direction": "Move to"
+        }
+      },
+      "done": {
+        "title": "Sensor Created",
+        "description": "Setup complete. The sensor is now active."
+      }
+    },
+    "error": {
+      "invalid_time_format": "Invalid time format. Use HH:MM, HH, *-MM-DDThh:mm, or a Jinja2 template.",
+      "already_configured": "A sensor with this name is already configured.",
+      "state_required": "State value is required."
+    },
+    "abort": {
+      "already_configured": "This sensor is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure Declarative State",
+        "description": "Choose what you want to configure:",
+        "menu_options": {
+          "settings": "General Settings",
+          "target_settings": "Target Entity",
+          "generic_action": "Generic Action",
+          "per_state_actions": "Per-state Actions",
+          "manage_states": "Manage States",
+          "done": "Done"
+        }
+      },
+      "settings": {
+        "title": "General Settings",
+        "description": "Configure general sensor settings.",
+        "data": {
+          "lookahead": "Lookahead",
+          "error_handling": "Error Handling",
+          "no_sensor": "Target-only mode (no sensor entity)"
+        },
+        "data_description": {
+          "lookahead": "Number of future state transitions to pre-calculate and expose as attributes (0 = off, max 10)",
+          "error_handling": "What to do if a state rule fails to evaluate: ignore the error and fall through, or mark the sensor unavailable",
+          "no_sensor": "When enabled, no sensor entity is created in HA. Useful when you only need time-based control of a target entity and do not want a visible sensor."
+        }
+      },
+      "target_settings": {
+        "title": "Target",
+        "description": "Optionally control entities based on the calculated state. Supports individual entities, areas, devices, and labels. Clear the target to disable.",
+        "data": {
+          "target": "Target",
+          "sync": "Keep in sync",
+          "sync_attribute": "Sync Attribute"
+        },
+        "data_description": {
+          "target": "The entities (or area/device/label) to control whenever the sensor state changes",
+          "sync": "If enabled, the action is re-applied automatically whenever a target entity drifts from its expected state (e.g. if changed externally)",
+          "sync_attribute": "Attribute to watch for drift instead of the entity state. Leave empty to compare the entity state directly."
+        }
+      },
+      "generic_action": {
+        "title": "Generic Action",
+        "description": "The fallback action called for any state that does not have a per-state action configured. The action editor supports templates — use {{ state }} anywhere in the service data to pass the current state value.\n\nNote: Any entity or target selected in the action editor is ignored — the target configured in \"Target Entity\" is always used.",
+        "data": {
+          "action": "Action",
+          "expected_state": "Expected State"
+        },
+        "data_description": {
+          "action": "Action to call (e.g. light.turn_on). Service data fields support Jinja2 templates — e.g. brightness_pct: {{ state | int }}.",
+          "expected_state": "What the target entity should report after the action is applied. Leave empty to use the sensor state value as the expected state."
+        }
+      },
+      "per_state_actions": {
+        "title": "Per-state Actions",
+        "description": "Configure a specific action for each state value. States without an action configured here will fall back to the Default Action.\n\nEach section corresponds to one state value.\n\nNote: Any entity or target selected in the action editor is ignored — the target configured in \"Target Entity\" is always used.",
+        "data": {
+          "action": "Action",
+          "expected_state": "Expected State"
+        },
+        "data_description": {
+          "action": "Action to call when the sensor enters this state. Leave empty to use the Default Action.",
+          "expected_state": "What the target entity should report after this action. Leave empty to use the state value as the expected state."
+        }
+      },
+      "manage_states": {
+        "title": "Manage States",
+        "description": "Currently configured states: {count}\n\nLast state in the list has the highest priority.",
+        "menu_options": {
+          "add_state": "Add State",
+          "edit_state_select": "Edit State",
+          "remove_state_select": "Remove State",
+          "move_state_select": "Reorder State",
+          "back_to_main": "Back to Main Menu"
+        }
+      },
+      "add_state": {
+        "title": "Add New State",
+        "description": "Add a new state rule. It will be added at the end (highest priority).",
+        "data": {
+          "state": "State Value",
+          "start": "Start Time",
+          "end": "End Time",
+          "conditions": "Conditions",
+          "cancel": "Cancel (go back without adding)"
+        },
+        "data_description": {
+          "state": "The value this sensor will report when this rule is active (e.g. 'on', 'off', '200')",
+          "start": "When this state starts. Formats: HH:MM, *-MM-DDThh:mm, or Jinja2 template. Leave empty for 'always'.",
+          "end": "When this state ends. Same formats as start. Leave empty for 'always'.",
+          "conditions": "HA conditions that must all be true for this state to be active. Leave empty for no conditions."
+        }
+      },
+      "edit_state_select": {
+        "title": "Select State to Edit",
+        "description": "Choose which state you want to edit:",
+        "data": {
+          "state_id": "State"
+        }
+      },
+      "edit_state": {
+        "title": "Edit State",
+        "description": "Modify the selected state rule.",
+        "data": {
+          "state": "State Value",
+          "start": "Start Time",
+          "end": "End Time",
+          "conditions": "Conditions",
+          "cancel": "Cancel (go back without saving)"
+        },
+        "data_description": {
+          "state": "The value this sensor will report when this rule is active",
+          "start": "When this state starts. Leave empty for 'always'.",
+          "end": "When this state ends. Leave empty for 'always'.",
+          "conditions": "HA conditions that must all be true for this state to be active. Leave empty for no conditions."
+        }
+      },
+      "remove_state_select": {
+        "title": "Select State to Remove",
+        "description": "Choose which state you want to remove:",
+        "data": {
+          "state_id": "State"
+        }
+      },
+      "confirm_remove": {
+        "title": "Confirm Removal",
+        "description": "Are you sure you want to remove this state?\n\n{state}",
+        "data": {
+          "confirm": "Yes, remove this state"
+        }
+      },
+      "move_state_select": {
+        "title": "Reorder State",
+        "description": "Select a state to move:",
+        "data": {
+          "state_id": "State"
+        }
+      },
+      "move_state": {
+        "title": "Move State",
+        "description": "Moving: {state}",
+        "data": {
+          "direction": "Move to"
+        }
+      },
+      "done": {
+        "title": "Configuration Complete",
+        "description": "Your changes have been saved. The integration will reload automatically."
+      }
+    },
+    "error": {
+      "invalid_time_format": "Invalid time format. Use HH:MM, HH, *-MM-DDThh:mm, or a Jinja2 template.",
+      "invalid_json": "Invalid JSON format.",
+      "no_states_configured": "No states are configured.",
+      "invalid_state_id": "Invalid state selected.",
+      "invalid_lookahead": "Lookahead must be between 0 and 10.",
+      "removal_not_confirmed": "You must check the confirmation box to remove the state.",
+      "state_required": "State value is required."
+    }
+  }
+}
