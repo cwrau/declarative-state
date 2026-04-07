@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.svg" alt="Declarative State" width="160"/>
+  <img src="custom_components/declarative_state/brand/icon.png" alt="Declarative State" width="160"/>
 </p>
 
 <h1 align="center">Declarative State</h1>
