@@ -57,6 +57,10 @@ Rules are evaluated by priority (last rule wins). The resulting state is exposed
 
 ### Via HACS (recommended)
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=cwrau&repository=declarative-state&category=integration)
+
+Or add manually:
+
 1. Open HACS → **Integrations**
 2. Click the ⋮ menu → **Custom repositories**
 3. Add `https://github.com/cwrau/declarative-state` as an **Integration**
