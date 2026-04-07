@@ -19,7 +19,7 @@
 
 ## What it does
 
-**Declarative State** lets you write time- and condition-based rules that describe what state something *should* be in at any given moment. The integration evaluates those rules continuously and — optionally — enforces them by calling services on a target entity whenever the desired state changes or the actual state drifts away.
+**Declarative State** lets you write time- and condition-based rules that describe what state something _should_ be in at any given moment. The integration evaluates those rules continuously and — optionally — enforces them by calling services on a target entity whenever the desired state changes or the actual state drifts away.
 
 Think of it as a programmable schedule that also acts as a watchdog.
 
@@ -57,7 +57,7 @@ Rules are evaluated by priority (last rule wins). The resulting state is exposed
 
 ### Via HACS (recommended)
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=cwrau&repository=declarative-state&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=cwrau&repository=declarative-state&category=Integration)
 
 Or add manually:
 
@@ -82,9 +82,9 @@ The setup wizard walks you through:
 
 1. **Name** — gives the integration instance a name (e.g. `Office Lights`)
 2. **Manage States** — add the time/condition rules
-3. **Target Entity** *(optional)* — pick the entity to control
-4. **Generic Action** / **Per-state Actions** *(optional)* — configure the service calls
-5. **General Settings** *(optional)* — tune lookahead, error handling, target-only mode
+3. **Target Entity** _(optional)_ — pick the entity to control
+4. **Generic Action** / **Per-state Actions** _(optional)_ — configure the service calls
+5. **General Settings** _(optional)_ — tune lookahead, error handling, target-only mode
 6. **Done**
 
 Multiple independent instances can be created — one per "thing" you want to schedule.
@@ -95,12 +95,12 @@ Multiple independent instances can be created — one per "thing" you want to sc
 
 Each rule in the **states** list has:
 
-| Field | Required | Description |
-|---|---|---|
-| `state` | yes | The state value this rule produces (any string, e.g. `"on"`, `"off"`, `"200"`) |
-| `start` | no | When the rule's window opens (see [Time formats](#time-formats)) |
-| `end` | no | When the rule's window closes |
-| `conditions` | no | One or more HA conditions that must all be true |
+| Field        | Required | Description                                                                    |
+| ------------ | -------- | ------------------------------------------------------------------------------ |
+| `state`      | yes      | The state value this rule produces (any string, e.g. `"on"`, `"off"`, `"200"`) |
+| `start`      | no       | When the rule's window opens (see [Time formats](#time-formats))               |
+| `end`        | no       | When the rule's window closes                                                  |
+| `conditions` | no       | One or more HA conditions that must all be true                                |
 
 If neither `start` nor `end` is set the rule is always-active (a useful default/fallback).
 
@@ -126,14 +126,14 @@ Rules are evaluated **bottom-up** — the last rule in the list has the highest 
 
 ## Time formats
 
-| Format | Example | Meaning |
-|---|---|---|
-| `HH:MM` | `"08:30"` | Daily at 08:30 |
-| `HH` | `"22"` | Daily at 22:00 |
-| `*-MM-DD` | `"*-12-24"` | Every year on Dec 24 at midnight |
-| `*-MM-DDThh:mm` | `"*-12-24T17:00"` | Every year on Dec 24 at 17:00 |
-| `YYYY-MM-DD` | `"2025-06-01"` | A specific date at midnight |
-| Jinja2 template | `"{{ state_attr('sun.sun', 'next_dusk') }}"` | Dynamic time from a template |
+| Format          | Example                                      | Meaning                          |
+| --------------- | -------------------------------------------- | -------------------------------- |
+| `HH:MM`         | `"08:30"`                                    | Daily at 08:30                   |
+| `HH`            | `"22"`                                       | Daily at 22:00                   |
+| `*-MM-DD`       | `"*-12-24"`                                  | Every year on Dec 24 at midnight |
+| `*-MM-DDThh:mm` | `"*-12-24T17:00"`                            | Every year on Dec 24 at 17:00    |
+| `YYYY-MM-DD`    | `"2025-06-01"`                               | A specific date at midnight      |
+| Jinja2 template | `"{{ state_attr('sun.sun', 'next_dusk') }}"` | Dynamic time from a template     |
 
 Annual dates with `*` wildcards are the most flexible — they work across year boundaries (e.g. `start: "*-12-01"` / `end: "*-01-15"` correctly spans New Year).
 
@@ -154,7 +154,7 @@ conditions:
         entity_id: media_player.living_room_tv
         state: "on"
         for:
-          minutes: 5    # must have been on for at least 5 minutes
+          minutes: 5 # must have been on for at least 5 minutes
 ```
 
 When a `for` duration is present the integration automatically schedules a re-evaluation at the exact moment the duration expires, so the state transition happens on time without waiting for the next periodic refresh.
@@ -172,7 +172,7 @@ A single service used as the default for any state value:
 ```yaml
 target:
   entity_id: switch.office_lights
-action: switch.turn_on       # for state "on"
+action: switch.turn_on # for state "on"
 ```
 
 Use `{{ state }}` in the action data to pass the calculated state value dynamically:
@@ -187,11 +187,11 @@ data:
 
 Different services for different state values:
 
-| State value | Service called |
-|---|---|
-| `"on"` | `light.turn_on` |
-| `"off"` | `light.turn_off` |
-| `"dim"` | `light.turn_on` with `brightness_pct: 20` |
+| State value | Service called                            |
+| ----------- | ----------------------------------------- |
+| `"on"`      | `light.turn_on`                           |
+| `"off"`     | `light.turn_off`                          |
+| `"dim"`     | `light.turn_on` with `brightness_pct: 20` |
 
 States without a per-state action fall back to the generic action automatically.
 
@@ -213,7 +213,7 @@ A **2-second debounce** prevents the integration's own service calls from trigge
 
 #### Sync attribute
 
-By default, drift is detected by comparing the entity's **state**. Set *Sync Attribute* to watch a specific attribute instead — useful for brightness, volume level, or any numeric attribute.
+By default, drift is detected by comparing the entity's **state**. Set _Sync Attribute_ to watch a specific attribute instead — useful for brightness, volume level, or any numeric attribute.
 
 ### Target-only mode
 
@@ -225,12 +225,12 @@ Enable **Target-only mode** to suppress the sensor entity entirely. Use this whe
 
 Set **Lookahead** to a number greater than zero to pre-calculate upcoming state transitions. Each future transition is exposed as an attribute on the main sensor:
 
-| Lookahead | Entities created | Attributes |
-|---|---|---|
-| `0` | `sensor.name` | `start`, `end` |
-| `1` | `sensor.name`, `sensor.name_next` | as above on each |
-| `2` | + `sensor.name_3_next` | |
-| `N` | + `sensor.name_N+1_next` | |
+| Lookahead | Entities created                  | Attributes       |
+| --------- | --------------------------------- | ---------------- |
+| `0`       | `sensor.name`                     | `start`, `end`   |
+| `1`       | `sensor.name`, `sensor.name_next` | as above on each |
+| `2`       | + `sensor.name_3_next`            |                  |
+| `N`       | + `sensor.name_N+1_next`          |                  |
 
 Each sensor reports its `start` and `end` as full ISO 8601 datetimes, plus `start_time` / `end_time` (HH:MM) when the boundary falls on the current day.
 
@@ -238,10 +238,10 @@ Each sensor reports its `start` and `end` as full ISO 8601 datetimes, plus `star
 
 ## Error handling
 
-| Mode | Behaviour |
-|---|---|
-| `ignore` *(default)* | Skip any rule that fails to evaluate; continue with the remaining rules |
-| `unavailable` | Mark the sensor unavailable if any rule evaluation fails |
+| Mode                 | Behaviour                                                               |
+| -------------------- | ----------------------------------------------------------------------- |
+| `ignore` _(default)_ | Skip any rule that fails to evaluate; continue with the remaining rules |
+| `unavailable`        | Mark the sensor unavailable if any rule evaluation fails                |
 
 Errors are always written to the Home Assistant log regardless of mode.
 
@@ -317,7 +317,7 @@ sensor:
   - platform: declarative_state
     name: heating_mode
     states:
-      - state: "eco"                  # always-on fallback
+      - state: "eco" # always-on fallback
       - state: "comfort"
         start: "06:30"
         end: "22:00"
@@ -325,7 +325,7 @@ sensor:
           - condition: state
             entity_id: person.alice
             state: home
-      - state: "off"                  # high priority: summer override
+      - state: "off" # high priority: summer override
         start: "*-06-01"
         end: "*-09-01"
 ```
@@ -335,20 +335,24 @@ sensor:
 ## Troubleshooting
 
 **Sensor is unavailable**
+
 - Check the Home Assistant log for errors referencing `declarative_state`
 - Confirm that condition entity IDs exist and are correctly spelled
 - Switch `error_handling` to `unavailable` temporarily — it will surface the first failing rule
 
 **State doesn't change at the expected time**
+
 - The integration updates every minute by default; the transition may be up to 60 seconds late
 - For near-instant transitions on condition changes, ensure the relevant entities are being tracked (they are discovered automatically)
 - For `for`-duration conditions the re-evaluation is scheduled precisely; check the log for `"Scheduling for-condition refresh"` messages
 
 **Target entity keeps getting reset**
+
 - Drift correction is enabled — the integration will override manual changes to keep the entity in sync
 - Disable **Keep in sync** if you want manual control to persist
 
 **`for` conditions don't seem to work**
+
 - Ensure the time format is a valid HA duration: `{seconds: 8}`, `{minutes: 1}`, or `"0:00:08"`
 - Check the log for `"Scheduling for-condition refresh"` to confirm the timer is being registered
 
